@@ -1,7 +1,9 @@
 #!/usr/bin/python3
+""" function unlocks boxes """
 
 
 def canUnlockAll(boxes):
+    """  """
     num_boxes = len(boxes)
     unlocked = [False] * num_boxes
     unlocked[0] = True
