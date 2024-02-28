@@ -3,41 +3,44 @@
 
 import sys
 
+
 def compute_metrics(line):
     """ displays function """
     try:
         parts = line.split()
         ip_address = parts[0]
-        status_code = int(parts[-2])
+        status = int(parts[-2])
         file_size = int(parts[-1])
 
-        return ip_address, status_code, file_size
-    except:
+        return ip_address, status, file_size
+    except None:
         return None, None, None
 
-def print_statistics(total_file_size, lines_by_status_code):
-    print(f"Total file size: {total_file_size}")
-    for status_code in sorted(lines_by_status_code.keys()):
-        print(f"{status_code}: {lines_by_status_code[status_code]}")
+
+def print_statistics(total_size, status_code):
+    print(f"Total file size: {total_size}")
+    for status in sorted(status_code.keys()):
+        print(f"{status}: {status_code[status]}")
+
 
 if __name__ == "__main__":
-    total_file_size = 0
-    lines_by_status_code = {}
+    total_size = 0
+    status_code = {}
 
     try:
         line_count = 0
         for line in sys.stdin:
-            ip_address, status_code, file_size = compute_metrics(line.strip())
+            ip_address, status, file_size = compute_metrics(line.strip())
 
             if ip_address is None:
                 continue
 
-            total_file_size += file_size
-            lines_by_status_code[status_code] = lines_by_status_code.get(status_code, 0) + 1
+            total_size += file_size
+            status_code[status] = status_code.get(status, 0) + 1
 
             line_count += 1
             if line_count % 10 == 0:
-                print_statistics(total_file_size, lines_by_status_code)
+                print_statistics(total_size, status_code)
 
     except KeyboardInterrupt:
-        print_statistics(total_file_size, lines_by_status_code)
+        print_statistics(total_size, status_code)
