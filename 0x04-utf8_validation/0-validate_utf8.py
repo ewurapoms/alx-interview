@@ -1,4 +1,4 @@
-#!/usr/bin/ python3
+#!/usr/bin/python3
 """utf validation module"""
 
 
@@ -15,9 +15,7 @@ def validUTF8(data):
     num_bytes_to_follow = 0
 
     for num in data:
-        # Check if the current byte is the start of a new character
         if num_bytes_to_follow == 0:
-            # Count the number of bytes to follow based on the first few bits
             if num >> 7 == 0b0:
                 num_bytes_to_follow = 0
             elif num >> 5 == 0b110:
@@ -29,11 +27,9 @@ def validUTF8(data):
             else:
                 return False
         else:
-            # Check if the current byte is a continuation byte
             if num >> 6 != 0b10:
                 return False
 
             num_bytes_to_follow -= 1
 
-    # Check if all the bytes have been consumed
     return num_bytes_to_follow == 0
